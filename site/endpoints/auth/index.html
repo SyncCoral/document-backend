@@ -1,0 +1,953 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://github.com/SyncCoral/document-backend/endpoints/auth/">
+      
+      
+        <link rel="prev" href="../../estructura/">
+      
+      
+        <link rel="next" href="../usuarios/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.7">
+    
+    
+      
+        <title>auth - Fastapi - AUTH BACKEND</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#documentacion-del-modulo-de-autenticacion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Fastapi - AUTH BACKEND" class="md-header__button md-logo" aria-label="Fastapi - AUTH BACKEND" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Fastapi - AUTH BACKEND
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              auth
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Fastapi - AUTH BACKEND" class="md-nav__button md-logo" aria-label="Fastapi - AUTH BACKEND" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Fastapi - AUTH BACKEND
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inicio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../instalacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Instalación
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uso/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Uso
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estructura/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Referencia
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    entrypoints
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            entrypoints
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    auth
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    auth
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-iniciar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Iniciar Sesión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-validar-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Validar Token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-refrescar-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Refrescar Token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-cerrar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Cerrar Sesión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-restablecer-contrasena" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Restablecer Contraseña
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-verificar-codigo-de-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Verificar Código de Recuperación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-cambiar-contrasena" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Cambiar Contraseña
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Seguridad
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usuarios/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    usuarios
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modulos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    modulos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../organizaciones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    organizaciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roles/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    roles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permisos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    permisos
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    jobs
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            jobs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../jobs/mensajes.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    mensajes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#endpoints" class="md-nav__link">
+    <span class="md-ellipsis">
+      Endpoints
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-iniciar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Iniciar Sesión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-validar-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Validar Token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-refrescar-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Refrescar Token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-cerrar-sesion" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Cerrar Sesión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-restablecer-contrasena" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Restablecer Contraseña
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-verificar-codigo-de-recuperacion" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Verificar Código de Recuperación
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-cambiar-contrasena" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Cambiar Contraseña
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seguridad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Seguridad
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="documentacion-del-modulo-de-autenticacion">Documentación del Módulo de Autenticación</h1>
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="1-iniciar-sesion">1. Iniciar Sesión</h3>
+<p><strong>Endpoint:</strong> <code>POST /login</code></p>
+<p><strong>Descripción:</strong>
+Permite a los usuarios iniciar sesión en el sistema y obtener un token de autenticación.</p>
+<p><strong>Parámetros:</strong>
+- <code>username</code> (str, requerido): Nombre de usuario o correo.
+- <code>password</code> (str, requerido): Contraseña del usuario.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Retorna un token de acceso.
+- <code>401 Unauthorized</code>: Credenciales incorrectas.
+- <code>404 Not Found</code>: Usuario no encontrado.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;access_token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;,
+    &quot;token_type&quot;: &quot;bearer&quot;
+}
+</code></pre>
+<hr />
+<h3 id="2-validar-token">2. Validar Token</h3>
+<p><strong>Endpoint:</strong> <code>GET /validate-token</code></p>
+<p><strong>Descripción:</strong>
+Verifica la validez de un token JWT.</p>
+<p><strong>Parámetros:</strong>
+- <code>Authorization</code> (Header, requerido): Token JWT en formato <code>Bearer &lt;token&gt;</code>.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Token válido.
+- <code>401 Unauthorized</code>: Token inválido o expirado.
+- <code>429 Too Many Requests</code>: Se excedió el límite de peticiones.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;message&quot;: &quot;Token válido&quot;
+}
+</code></pre>
+<hr />
+<h3 id="3-refrescar-token">3. Refrescar Token</h3>
+<p><strong>Endpoint:</strong> <code>POST /refresh</code></p>
+<p><strong>Descripción:</strong>
+Genera un nuevo token de acceso utilizando un refresh token.</p>
+<p><strong>Parámetros:</strong>
+- <code>Authorization</code> (Header, requerido): Refresh token en formato <code>Bearer &lt;token&gt;</code>.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Retorna un nuevo token de acceso.
+- <code>401 Unauthorized</code>: Token inválido.
+- <code>429 Too Many Requests</code>: Se excedió el límite de peticiones.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;access_token&quot;: &quot;nuevo_token_jwt&quot;,
+    &quot;token_type&quot;: &quot;bearer&quot;
+}
+</code></pre>
+<hr />
+<h3 id="4-cerrar-sesion">4. Cerrar Sesión</h3>
+<p><strong>Endpoint:</strong> <code>GET /logout</code></p>
+<p><strong>Descripción:</strong>
+Revoca el token de autenticación del usuario.</p>
+<p><strong>Parámetros:</strong>
+- <code>Authorization</code> (Header, requerido): Token JWT en formato <code>Bearer &lt;token&gt;</code>.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Cierre de sesión exitoso.
+- <code>401 Unauthorized</code>: Token inválido.
+- <code>429 Too Many Requests</code>: Se excedió el límite de peticiones.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;message&quot;: &quot;Cierre de sesión exitoso&quot;
+}
+</code></pre>
+<hr />
+<h3 id="5-restablecer-contrasena">5. Restablecer Contraseña</h3>
+<p><strong>Endpoint:</strong> <code>POST /password-reset</code></p>
+<p><strong>Descripción:</strong>
+Envía un código de recuperación de contraseña al correo del usuario.</p>
+<p><strong>Parámetros:</strong>
+- <code>username</code> (str, requerido): Nombre de usuario.
+- <code>email</code> (str, requerido): Correo electrónico registrado.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Código enviado correctamente.
+- <code>404 Not Found</code>: Usuario no encontrado.
+- <code>429 Too Many Requests</code>: Se excedió el límite de peticiones.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;message&quot;: &quot;Correo de recuperación enviado exitosamente.&quot;
+}
+</code></pre>
+<hr />
+<h3 id="6-verificar-codigo-de-recuperacion">6. Verificar Código de Recuperación</h3>
+<p><strong>Endpoint:</strong> <code>GET /verify-code/{username}/{code}</code></p>
+<p><strong>Descripción:</strong>
+Valida el código de recuperación de contraseña.</p>
+<p><strong>Parámetros:</strong>
+- <code>username</code> (str, requerido): Nombre de usuario.
+- <code>code</code> (int, requerido): Código de verificación.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Código válido.
+- <code>400 Bad Request</code>: Código incorrecto o expirado.
+- <code>404 Not Found</code>: Usuario no encontrado.
+- <code>429 Too Many Requests</code>: Se excedió el límite de peticiones.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;message&quot;: &quot;Código verificado correctamente. Puede proceder con el cambio de contraseña.&quot;
+}
+</code></pre>
+<hr />
+<h3 id="7-cambiar-contrasena">7. Cambiar Contraseña</h3>
+<p><strong>Endpoint:</strong> <code>PUT /password-change</code></p>
+<p><strong>Descripción:</strong>
+Permite cambiar la contraseña de un usuario.</p>
+<p><strong>Parámetros:</strong>
+- <code>username</code> (str, requerido): Nombre de usuario.
+- <code>password</code> (str, requerido): Nueva contraseña.</p>
+<p><strong>Respuesta:</strong>
+- <code>200 OK</code>: Contraseña cambiada exitosamente.
+- <code>400 Bad Request</code>: Contraseña débil.
+- <code>404 Not Found</code>: Usuario no encontrado.
+- <code>429 Too Many Requests</code>: Se excedió el límite de peticiones.</p>
+<p><strong>Ejemplo de Respuesta:</strong></p>
+<pre><code class="language-json">{
+    &quot;message&quot;: &quot;Contraseña cambiada exitosamente.&quot;
+}
+</code></pre>
+<hr />
+<h2 id="seguridad">Seguridad</h2>
+<ul>
+<li>Todos los endpoints utilizan <code>JWT</code> para autenticación.</li>
+<li>Se aplican límites de peticiones (<code>Rate Limiting</code>) para prevenir abusos.</li>
+<li>El cambio de contraseña requiere validación previa con un código enviado al correo.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+    
+  </body>
+</html>
