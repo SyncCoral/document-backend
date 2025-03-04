@@ -1,0 +1,10 @@
+services:
+  mkdocs:
+    build: .
+    image: mkdocs
+    container_name: document-backend
+    ports:
+      - "9000:9000"
+    volumes:
+      - .:/app
+    command: mkdocs serve -a 0.0.0.0:9000

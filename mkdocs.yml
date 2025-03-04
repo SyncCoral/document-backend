@@ -1,0 +1,27 @@
+site_name: Fastapi - AUTH BACKEND
+site_url: https://github.com/SyncCoral/document-backend
+
+
+nav:
+  - Inicio: index.md
+  - Instalación: instalacion.md
+  - Uso: uso.md
+  - Referencia: estructura.md
+  - entrypoints:
+    - auth: endpoints/auth.md
+    - usuarios: endpoints/usuarios.md
+    - modulos: endpoints/modulos.md
+    - organizaciones: endpoints/organizaciones.md
+    - roles: endpoints/roles.md
+    - permisos: endpoints/permisos.md
+  - jobs: 
+    - mensajes: jobs/mensajes.md
+
+
+# theme: readthedocs
+
+# theme:
+#     name: dracula
+
+theme:
+  name: material
